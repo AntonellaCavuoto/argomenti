@@ -88,3 +88,39 @@ ricorsione con cammino più lungo e peso minimo
         print(f"readDDTeams -- {self._selectedYear}")
 
 
+
+    def getBestPath(self, nodo):
+        self._bestPath = []
+        self._bestScore = 0
+        node = self._idMap[nodo]
+        parziale = []
+
+        for n in self._graph.neighbors(node):
+            parziale.append((node, n, self._graph[node][n]["weight"]))
+            self._ricorsione(parziale)
+            parziale.pop()
+
+        return self._bestScore, self._bestPath
+
+    def _ricorsione(self, parziale):
+        if len(parziale) > self._bestScore:
+            self._bestScore = (self.countEdges(parziale))
+            self._bestPath = copy.deepcopy(parziale)
+
+        for n in self._graph.neighbors(parziale[-1][1]):
+            if self.isAmissibile(parziale, n):
+                parziale.append((parziale[-1][1], n, self._graph[parziale[-1][1]][n]["weight"]))
+                self._ricorsione(parziale)
+                parziale.pop()
+
+    def isAmmissibile(self, parziale, node):
+        ammissibile = False
+        if parziale[-1][2] <= self._graph[parziale[-1][1]][node]["weight"]:
+            e = (parziale[-1][1], node, self._graph[parziale[-1][1]][node]["weight"])
+            e_inv = (node, parziale[-1][1], self._graph[node][parziale[-1][1]]["weight"])
+            if (e not in parziale) and (e_inv not in parziale):
+                ammissibile = True
+
+        return ammissibile
+
+
