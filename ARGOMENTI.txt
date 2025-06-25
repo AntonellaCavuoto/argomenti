@@ -1,0 +1,90 @@
+ARGOMENTI
+ARTSMIA: connessa, 
+ricorsione con lunghezza
+
+FLIGHT DELAYS: grafo non orientato, query complessa, 
+ricorsione con peso massimo e lunghezza massima
+
+BASEBALL: combinazione archi, 
+ricorsione con tuple e peso 
+
+ITUNES: connessa, 
+ricorsione con durata massima, lunghezza massima e album nella stessa componente connessa
+
+LAB11: query con prodotti venduti nello stesso giorno, 
+ricorsione con nodo di partenza e massimo numero di archi con peso crescente
+
+    def getBestWeight(self):
+        best = []
+        for n in self._graph.nodes:
+            for v in self._graph.neighbors(n):
+                weight = self._graph[n][v]["weight"]
+                best.append((n, v, weight))
+
+        results = sorted(best, key=lambda x: x[2], reverse=True)
+        bestResults = []
+        duplicati = []
+        for r in results[:5:2]:
+            bestResults.append(r[0])
+            bestResults.append(r[1])
+
+        dup = {x for x in bestResults if bestResults.count(x) > 1}
+
+        return results[:5:2], dup
+
+
+
+LAB12: volume come somma del peso totale di nodi adiacenti, 
+ricorsione con peso massimo e N archi
+
+LAB13: vittoria sull'altro, grafo orientato, 
+ricorisione con dream team di dimensione K
+
+LAB14: archi con vertici che sono effettuati in K giorni, cammino più lungo con DFS tree,
+return dfs_tree(self._graph, nodo)
+
+2024/07/04 B: componente connessa 
+ricorsione con punteggio 
+
+2024/07/18 A: distinctrow, nodi con maggior numero di archi uscenti e entranti (predecessors e successors), 
+ricorsione con cammino più lungo e peso minimo 
+    def getOutEdges(self):
+        outEdges = []
+        for n in self._graph.nodes:
+            edges = self._graph.out_edges(n)
+            tot = self.calcolaTot(n)
+            outEdges.append((n, edges, tot))
+
+        outEdges_sorted = sorted(outEdges, key=lambda x: len(x[1]), reverse=True)
+
+        return outEdges_sorted[:5]
+
+
+
+2024/07/04 C: stampare archi di peso maggiore in ordie decrescente di peso
+        outEdges_sorted = sorted(outEdges, key=lambda x: x[2], reverse=True)
+
+
+ 
+
+
+    def fillDDYear(self):
+        years = self._model.getYears()
+        yearsDD = []
+        for year in years:
+            self._view.ddyear.options.append(ft.dropdown.Option(data=year, text=year, on_click=self.readDDYear))
+        self._view.update_page()
+
+
+
+
+    def readDDYear(self, e):
+        if e.control.data is None:
+            self._selectedYear = None
+        else:
+            self._selectedYear = e.control.data
+            self.fillDDShape()
+
+        print(f"readDDTeams -- {self._selectedYear}")
+
+
